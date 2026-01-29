@@ -25,7 +25,7 @@ jobs:
         run: cargo llvm-cov report --codecov --output-path=codecov.json
 
       - name: Upload coverage
-        uses: getsentry/codecov-action@d1997bc
+        uses: getsentry/codecov-action@d1997bc21495f82a0a93559eec2d145114d60ccb
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: codecov.json
