@@ -11,9 +11,13 @@ This repository demonstrates how to set up code coverage for a Rust project usin
 
 ## How It Works
 
-1. Tests run with `cargo llvm-cov` which instruments the code and generates LCOV coverage data
-2. The coverage report is uploaded using `getsentry/codecov-action`
-3. Coverage results are stored as GitHub Artifacts and compared against the base branch on PRs
+`cargo-llvm-cov` has built-in support for Codecov's JSON format via the `--codecov` flag — it just works:
+
+```bash
+cargo llvm-cov --codecov --output-path codecov.json
+```
+
+The coverage report is then uploaded using `getsentry/codecov-action`, which stores results as GitHub Artifacts and compares against the base branch on PRs.
 
 ## GitHub Actions Workflow
 
@@ -21,20 +25,19 @@ This repository demonstrates how to set up code coverage for a Rust project usin
 - name: Install Rust toolchain
   uses: dtolnay/rust-toolchain@stable
   with:
-    components: llvm-tools-preview
+    components: llvm-tools
 
 - name: Install cargo-llvm-cov
   uses: taiki-e/install-action@cargo-llvm-cov
 
 - name: Run tests with coverage
-  run: cargo llvm-cov --lcov --output-path lcov.info
+  run: cargo llvm-cov --codecov --output-path codecov.json
 
 - name: Upload coverage
-  uses: getsentry/codecov-action@v1
+  uses: getsentry/codecov-action@main
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
-    files: ./lcov.info
-    coverage-format: lcov
+    files: ./codecov.json
 ```
 
 ## Why getsentry/codecov-action?
@@ -52,10 +55,13 @@ Unlike the traditional Codecov service, this action:
 # Install cargo-llvm-cov
 cargo install cargo-llvm-cov
 
-# Run tests with coverage
+# Run tests with coverage (prints summary to terminal)
 cargo llvm-cov
 
-# Generate LCOV report
+# Generate Codecov JSON report
+cargo llvm-cov --codecov --output-path codecov.json
+
+# Or generate LCOV report if preferred
 cargo llvm-cov --lcov --output-path lcov.info
 ```
 

@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-        - main
+      - main
   pull_request:
 
 jobs:
@@ -17,14 +17,16 @@ jobs:
         with:
           components: llvm-tools
 
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
       - name: Run tests with coverage
-        run: cargo llvm-cov --lcov --output-path lcov.info
+        run: cargo llvm-cov --codecov --output-path codecov.json
 
       - name: Upload coverage
         uses: getsentry/codecov-action@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: ./lcov.info
-          coverage-format: lcov
+          files: ./codecov.json
           fail-ci-if-error: true
           post-pr-comment: true
