@@ -2,7 +2,8 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches:
+        - main
   pull_request:
 
 jobs:
@@ -14,10 +15,7 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          components: llvm-tools-preview
-
-      - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@cargo-llvm-cov
+          components: llvm-tools
 
       - name: Run tests with coverage
         run: cargo llvm-cov --lcov --output-path lcov.info
