@@ -21,8 +21,7 @@ jobs:
         uses: taiki-e/install-action@cargo-llvm-cov
 
       - name: Run tests with coverage
-        # Generate codecov report (use `report` subcommand to avoid recompilation)
-        run: cargo llvm-cov report --codecov --output-path=codecov.json
+        run: cargo llvm-cov --codecov --output-path=codecov.json
 
       - name: Upload coverage
         uses: getsentry/codecov-action@d1997bc21495f82a0a93559eec2d145114d60ccb
