@@ -32,6 +32,5 @@ jobs:
         uses: getsentry/codecov-action@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: codecov.json
           fail-ci-if-error: true
           post-pr-comment: true
